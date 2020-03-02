@@ -4,7 +4,7 @@ set(CMAKE_CXX_COMPILER g++)
 
 project(MyProject VERSION 1.0.0)
 
-function(create_default_include_list)
+function(create_default_include_dirs var)
   execute_process(COMMAND ${CMAKE_CXX_COMPILER} -v -x c++ -E /dev/null
     ERROR_VARIABLE OUTPUT
     OUTPUT_VARIABLE _)
@@ -18,13 +18,14 @@ function(create_default_include_list)
     OUTPUT_VARIABLE OUTPUT)
 
   string(REPLACE "\n" ";" INCLUDE_LIST ${OUTPUT})
-  set(INCLUDE_LIST ${INCLUDE_LIST} PARENT_SCOPE)
+
+  set(${var} ${INCLUDE_LIST} PARENT_SCOPE)
 endfunction()
 
 add_executable(my_target main.cpp)
 
-create_default_include_list()
+create_default_include_list(INCLUDE_DIRS)
 
-foreach(dir IN ITEMS ${INCLUDE_LIST})
+foreach(dir IN ITEMS ${INCLUDE_DIRS})
   target_include_directories(my_target PRIVATE ${dir})
 endforeach()
