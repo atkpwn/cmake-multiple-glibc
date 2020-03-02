@@ -24,7 +24,7 @@ endfunction()
 
 add_executable(my_target main.cpp)
 
-create_default_include_list(INCLUDE_DIRS)
+create_default_include_dirs(INCLUDE_DIRS)
 
 foreach(dir IN ITEMS ${INCLUDE_DIRS})
   target_include_directories(my_target PRIVATE ${dir})
